@@ -149,6 +149,11 @@ npx eslint .
 - Twitter: [@astroboyReload](https://twitter.com/astroboyReload)
 - LinkedIn: [Alex Muñoz](https://www.linkedin.com/in/astroboyreloaded/)
 
+> 👤 **Bahir Hakimy**
+
+- [GitHub](https://github.com/astroboyReloaded)
+- [Twitter](https://twitter.com/astroboyReload)
+- [LinkedIn](https://www.linkedin.com/in/bahir-hakimy-533660237)
 <!-- FUTURE FEATURES -->
 
 ## 🔭 Future Features <a name="future-features"></a>
