@@ -9,25 +9,23 @@ const getFromLocalStorage = () => {
   return cachedBooks ? JSON.parse(cachedBooks) : [];
 };
 
+let booksArr = getFromLocalStorage() || [];
+
 const saveToLocalStorage = () => {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(booksArr));
+};
+
+const removeBook = (target) => {
+  booksArr = booksArr.filter((book) => book !== target);
 };
 
 const updateList = () => {
   saveToLocalStorage();
   const childs = booksArr.map((book) => createBook(book));
-  list.innerHTML = ``;
+  list.innerHTML = '';
   list.append(...childs);
   title.value = '';
   author.value = '';
-};
-
-let booksArr = getFromLocalStorage();
-
-const removeBook = (target) => {
-  booksArr = booksArr.filter((book) => book !== target);
-  console.log('book removed', booksArr);
-  updateList();
 };
 
 function createBook(book) {
@@ -39,6 +37,7 @@ function createBook(book) {
 
   button.onclick = () => {
     removeBook(book);
+    updateList();
   };
   button.innerText = 'Remove';
   title.textContent = book.title;
@@ -54,4 +53,4 @@ addBtn.addEventListener('click', () => {
   updateList();
 });
 
-booksArr.length > 0 && updateList();
+if (booksArr.length > 0) updateList();
