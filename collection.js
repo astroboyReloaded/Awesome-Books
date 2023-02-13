@@ -13,16 +13,16 @@ const saveToLocalStorage = () => {
 };
 
 const deleteBook = (i) => {
-    booksArr = booksArr.filter((book, ind) => i !== ind);
-}
+  booksArr = booksArr.filter((book, ind) => i !== ind);
+};
 
 function render() {
   list.innerHTML = booksArr.map((book) => (`<li>
-            <article>
-                <p id="title">${book.title}</p>
-                <p id="author">${book.author}</p>
-                <button class="remove">Remove</button>
-            </article>`)).join('');
+    <article>
+        <p id="title">${book.title}</p>
+        <p id="author">${book.author}</p>
+        <button class="remove">Remove</button>
+    </article>`)).join('');
 
   const remove = Array.from(document.getElementsByClassName('remove'));
   remove.forEach((btn, i) => btn.addEventListener('click', () => {
@@ -40,10 +40,10 @@ const addBtn = document.getElementById('add');
 
 const addNewBook = () => {
   booksArr.push({ title: title.value, author: author.value });
-}
+};
 
 addBtn.addEventListener('click', () => {
-    addNewBook();
+  addNewBook();
   saveToLocalStorage();
   render();
 });
