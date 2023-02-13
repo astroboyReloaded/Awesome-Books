@@ -12,6 +12,10 @@ const saveToLocalStorage = () => {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(booksArr));
 };
 
+const deleteBook = (i) => {
+    booksArr = booksArr.filter((book, ind) => i !== ind);
+}
+
 function render() {
   list.innerHTML = booksArr.map((book) => (`<li>
             <article>
@@ -22,7 +26,7 @@ function render() {
 
   const remove = Array.from(document.getElementsByClassName('remove'));
   remove.forEach((btn, i) => btn.addEventListener('click', () => {
-    booksArr = booksArr.filter((book, ind) => i !== ind);
+    deleteBook(i);
     saveToLocalStorage();
     render();
   }));
@@ -34,8 +38,12 @@ const title = document.getElementById('newTitle');
 const author = document.getElementById('newAuthor');
 const addBtn = document.getElementById('add');
 
-addBtn.addEventListener('click', () => {
+const addNewBook = () => {
   booksArr.push({ title: title.value, author: author.value });
+}
+
+addBtn.addEventListener('click', () => {
+    addNewBook();
   saveToLocalStorage();
   render();
 });
