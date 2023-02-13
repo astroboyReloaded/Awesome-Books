@@ -17,15 +17,8 @@ const saveToLocalStorage = () => {
 
 const removeBook = (target) => {
   booksArr = booksArr.filter((book) => book !== target);
-};
-
-const updateList = () => {
-  saveToLocalStorage();
-  const childs = booksArr.map((book) => createBook(book));
-  list.innerHTML = '';
-  list.append(...childs);
-  title.value = '';
-  author.value = '';
+  // eslint-disable-next-line no-use-before-define
+  updateList();
 };
 
 function createBook(book) {
@@ -37,7 +30,6 @@ function createBook(book) {
 
   button.onclick = () => {
     removeBook(book);
-    updateList();
   };
   button.innerText = 'Remove';
   title.textContent = book.title;
@@ -47,6 +39,15 @@ function createBook(book) {
   article.append(title, author, button);
   return list;
 }
+
+const updateList = () => {
+  saveToLocalStorage();
+  const childs = booksArr.map((book) => createBook(book));
+  list.innerHTML = '';
+  list.append(...childs);
+  title.value = '';
+  author.value = '';
+};
 
 addBtn.addEventListener('click', () => {
   booksArr.push({ title: title.value, author: author.value });
