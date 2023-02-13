@@ -1,56 +1,41 @@
 const LOCAL_STORAGE_KEY = 'books';
 const list = document.getElementById('books');
-const title = document.getElementById('title');
-const author = document.getElementById('author');
-const addBtn = document.getElementById('add');
 
 const getFromLocalStorage = () => {
   const cachedBooks = window.localStorage.getItem(LOCAL_STORAGE_KEY);
   return cachedBooks ? JSON.parse(cachedBooks) : [];
 };
 
-let booksArr = getFromLocalStorage() || [];
+let booksArr = getFromLocalStorage();
 
 const saveToLocalStorage = () => {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(booksArr));
 };
 
-const removeBook = (target) => {
-  booksArr = booksArr.filter((book) => book !== target);
-};
+function render() {
+  list.innerHTML = booksArr.map((book) => (`<li>
+            <article>
+                <p id="title">${book.title}</p>
+                <p id="author">${book.author}</p>
+                <button class="remove">Remove</button>
+            </article>`)).join('');
 
-const updateList = () => {
-  saveToLocalStorage();
-  const childs = booksArr.map((book) => createBook(book));
-  list.innerHTML = '';
-  list.append(...childs);
-  title.value = '';
-  author.value = '';
-};
-
-function createBook(book) {
-  const list = document.createElement('li');
-  const article = document.createElement('article');
-  const title = document.createElement('p');
-  const author = document.createElement('p');
-  const button = document.createElement('button');
-
-  button.onclick = () => {
-    removeBook(book);
-    updateList();
-  };
-  button.innerText = 'Remove';
-  title.textContent = book.title;
-  author.textContent = book.author;
-
-  list.appendChild(article);
-  article.append(title, author, button);
-  return list;
+  const remove = Array.from(document.getElementsByClassName('remove'));
+  remove.forEach((btn, i) => btn.addEventListener('click', () => {
+    booksArr = booksArr.filter((book, ind) => i !== ind);
+    saveToLocalStorage();
+    render();
+  }));
 }
+
+window.onload = render();
+
+const title = document.getElementById('newTitle');
+const author = document.getElementById('newAuthor');
+const addBtn = document.getElementById('add');
 
 addBtn.addEventListener('click', () => {
   booksArr.push({ title: title.value, author: author.value });
-  updateList();
+  saveToLocalStorage();
+  render();
 });
-
-if (booksArr.length > 0) updateList();
