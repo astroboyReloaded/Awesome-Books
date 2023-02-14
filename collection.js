@@ -1,49 +1,68 @@
-const LOCAL_STORAGE_KEY = 'books';
-const list = document.getElementById('books');
+class Library {
+  LOCAL_STORAGE_KEY = 'books';
+  collection = [];
 
-const getFromLocalStorage = () => {
-  const cachedBooks = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-  return cachedBooks ? JSON.parse(cachedBooks) : [];
-};
+  constructor() {
+    this.collection = this.getFromLocalStorage();
+    this.list = document.getElementById('books');
+    this.addButton = document.getElementById('add');
+    this.addButton.addEventListener('click', () => {
+      this.addNewBook();
+      this.saveToLocalStorage();
+      this.render();
+    });
+  }
 
-let booksArr = getFromLocalStorage();
+  getFromLocalStorage() {
+    const cachedBooks = window.localStorage.getItem(this.LOCAL_STORAGE_KEY);
+    return cachedBooks ? JSON.parse(cachedBooks) : [];
+  }
 
-const saveToLocalStorage = () => {
-  window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(booksArr));
-};
+  saveToLocalStorage() {
+    window.localStorage.setItem(
+      this.LOCAL_STORAGE_KEY,
+      JSON.stringify(this.collection)
+    );
+  }
 
-const deleteBook = (i) => {
-  booksArr = booksArr.filter((book, ind) => i !== ind);
-};
+  deleteBook(i) {
+    this.collection = this.collection.filter((book, ind) => i !== ind);
+  }
 
-function render() {
-  list.innerHTML = booksArr.map((book) => (`<li>
-    <article>
-        <p id="title">${book.title}</p>
-        <p id="author">${book.author}</p>
-        <button class="remove">Remove</button>
-    </article>`)).join('');
+  addNewBook() {
+    const title = document.getElementById('newTitle');
+    const author = document.getElementById('newAuthor');
+    this.collection.push({ title: title.value, author: author.value });
+    title.value = '';
+    author.value = '';
+    title.focus();
+  }
 
-  const remove = Array.from(document.getElementsByClassName('remove'));
-  remove.forEach((btn, i) => btn.addEventListener('click', () => {
-    deleteBook(i);
-    saveToLocalStorage();
-    render();
-  }));
+  render() {
+    this.list.innerHTML = this.collection
+      .map(
+        (book) => `<li>
+      <article>
+          <p id="title">${book.title}</p>
+          <p id="author">${book.author}</p>
+          <button class="remove">Remove</button>
+      </article>
+      </li>`
+      )
+      .join('');
+
+    const remove = Array.from(document.getElementsByClassName('remove'));
+    remove.forEach((btn, i) =>
+      btn.addEventListener('click', () => {
+        this.deleteBook(i);
+        this.saveToLocalStorage();
+        this.render();
+      })
+    );
+  }
 }
 
-window.onload = render();
-
-const title = document.getElementById('newTitle');
-const author = document.getElementById('newAuthor');
-const addBtn = document.getElementById('add');
-
-const addNewBook = () => {
-  booksArr.push({ title: title.value, author: author.value });
+window.onload = () => {
+  const lib = new Library();
+  lib.render();
 };
-
-addBtn.addEventListener('click', () => {
-  addNewBook();
-  saveToLocalStorage();
-  render();
-});
