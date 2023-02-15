@@ -1,3 +1,25 @@
+function showToast(msg, callback) {
+  const toast = document.createElement('div');
+  const message = document.createElement('p');
+  const action = document.createElement('button');
+  const slider = document.createElement('div');
+  toast.className = 'toast';
+  message.className = 'message';
+  action.className = 'action';
+  slider.className = 'slider';
+  message.textContent = msg;
+  action.textContent = 'View';
+  toast.append(message, action, slider);
+  document.body.prepend(toast);
+  const id = setTimeout(() => {
+    document.body.removeChild(toast);
+  }, 3000);
+  action.onclick = () => {
+    callback();
+    clearTimeout(id);
+    document.body.removeChild(toast);
+  };
+}
 class Library {
   LOCAL_STORAGE_KEY = 'books';
 
@@ -37,6 +59,8 @@ class Library {
     title.value = '';
     author.value = '';
     title.focus();
+    // eslint-disable-next-line no-undef
+    showToast('Book was added successfully', () => toggleVisibility('collection'));
   }
 
   render() {

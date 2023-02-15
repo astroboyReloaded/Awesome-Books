@@ -16,6 +16,44 @@ body {
   background: url('images/booksBg.jpg') no-repeat;
   background-size: cover;
   backdrop-filter: blur(3px);
+  position: relative;
+}
+
+.toast {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--beige);
+  border: 2px solid var(--brown);
+  animation: pop 0.5s linear 1 forwards;
+  transform: translateX(100%);
+}
+
+.message {
+  font-weight: bold;
+  color: var(--brown);
+  text-shadow: 0.1rem 0.1rem 0.5rem var(--brown);
+}
+
+.action {
+  background-color: var(--brown);
+  border: none;
+  padding: 0.2rem 1rem;
+  box-shadow: none;
+}
+
+.slider {
+  position: absolute;
+  background-color: var(--blue);
+  height: 0.5rem;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  animation: slide 3s linear 1 forwards;
 }
 
 header {
@@ -175,4 +213,36 @@ footer {
   font-size: 1.3rem;
   font-weight: bold;
   padding: 0.5rem 1.5rem;
+}
+
+@keyframes pop {
+  from {
+    transform: translateX(100%);
+  }
+
+  25% {
+    transform: translateX(-20%);
+  }
+
+  50% {
+    transform: translateX(10%);
+  }
+
+  75% {
+    transform: translateX(-5%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide {
+  from {
+    width: 100;
+  }
+
+  to {
+    width: 0;
+  }
 }
