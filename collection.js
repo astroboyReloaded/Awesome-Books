@@ -22,7 +22,7 @@ class Library {
   saveToLocalStorage() {
     window.localStorage.setItem(
       this.LOCAL_STORAGE_KEY,
-      JSON.stringify(this.collection)
+      JSON.stringify(this.collection),
     );
   }
 
@@ -47,18 +47,16 @@ class Library {
           <p id="title">"${book.title}" by ${book.author}</p>
           <button class="remove">Remove</button>
       </article>
-      </li>`
+      </li>`,
       )
       .join('');
 
     const remove = Array.from(document.getElementsByClassName('remove'));
-    remove.forEach((btn, i) =>
-      btn.addEventListener('click', () => {
-        this.deleteBook(i);
-        this.saveToLocalStorage();
-        this.render();
-      })
-    );
+    remove.forEach((btn, i) => btn.addEventListener('click', () => {
+      this.deleteBook(i);
+      this.saveToLocalStorage();
+      this.render();
+    }));
   }
 }
 
